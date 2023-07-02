@@ -26,7 +26,7 @@ PLAY_GAME = True
 # initialize pygame and create window
 pygame.init()
 window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Dino Run")
+pygame.display.set_caption("Run")
 
 clock = pygame.time.Clock()
 
