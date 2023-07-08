@@ -377,7 +377,7 @@ class Score:
             str(self.score),
             "font/monofonto.ttf",
             28,
-            (19, 130, 98),
+            (50, 130, 98),
             SCREEN_WIDTH - 60,
             65,
             "topright",
