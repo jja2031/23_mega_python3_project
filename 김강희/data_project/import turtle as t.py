@@ -4,7 +4,6 @@ import os
 import sys
 import random
 
-
 os.environ["SDL_VIDEO_CENTERED"] = "1"
 
 
@@ -192,9 +191,9 @@ class Cactus:
 
 class Dino:
     def __init__(self):
-        self.idle_images = load_sprites("image/dino/", "idle_", 10, 220, 153)
-        self.running_images = load_sprites("image/dino/", "run_", 8, 220, 153)
-        self.jumping_images = load_sprites("image/dino/", "jump_", 16, 220, 153)
+        self.idle_images = load_sprites("image/dino/", "idle_", 10, 130, 260)
+        self.running_images = load_sprites("image/dino/", "run_", 8, 150, 240)
+        self.jumping_images = load_sprites("image/dino/", "jump_", 16, 150, 240)
 
         self.rect = self.idle_images[0].get_rect()
 
@@ -329,6 +328,17 @@ class Score:
                 score_sound.play()
 
         self.call_count = self.call_count + 1
+
+        if self.score % 100 >= 0 and self.score % 100 < 10 and self.score > 100:
+            draw_text(
+                "congratulation",
+                "font/northcliff_stencil.otf",
+                70,
+                (255, 0, 0),
+                SCREEN_WIDTH / 2,
+                SCREEN_HEIGHT / 5,
+                "midtop",
+            )
 
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
