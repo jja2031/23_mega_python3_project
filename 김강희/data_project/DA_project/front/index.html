@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Website</title>
+  </head>
+  <body onload="SetFormDefaults();">
+    <iframe name="iframe1" style="display: none"></iframe>
+    <button id="submit" onclick="submit()">
+      <p>submit</p>
+    </button>
+    <hr />
+    <p>Slider bar</p>
+    <div>
+      <input type="range" id="slider" min="0" max="255" step="1" value="0" />
+    </div>
+    <p id="slider_label"></p>
+    <hr />
+    <div>Drop Down</div>
+    <div>
+      <select id="dropdown">
+        <option value="0">a</option>
+        <option value="1">b</option>
+        <option value="2">c</option>
+      </select>
+    </div>
+    <hr />
+    <div style="width: 500px; height: 500px">
+      <canvas id="myChart"></canvas>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function SetFormDefaults() {}
+
+    var labels = ["January", "February", "March", "April", "May", "June"];
+    var data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "My First dataset",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderColor: "rgb(255, 99, 132)",
+          data: [0, 10, 5, 2, 20, 30, 45],
+        },
+      ],
+    };
+
+    const config = {
+      type: "line",
+      data: data,
+      options: {},
+    };
+
+    var myChart = new Chart(document.getElementById("myChart"), config);
+
+    function submit() {
+      fetch("http://127.0.0.1:5000/test")
+        .then((response) => response.json())
+        .then((data) => {
+          config.data = data;
+          myChart.update();
+        });
+    }
+  </script>
+  <style></style>
+</html>
