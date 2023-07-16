@@ -296,6 +296,10 @@ class Dino:
 
 class Score:
     def __init__(self):
+        self.coin_image, self.coin_rect = load_image("image/score/coins0.png", 20, 20)
+        self.coin_rect.topleft = (random.randint(50, SCREEN_WIDTH - 50), random.randint(50, SCREEN_HEIGHT - 50))
+
+        
         self.high_score_image, self.rect_high = load_image(
             "image/score/high_score.png", 35, 35
         )
@@ -315,6 +319,15 @@ class Score:
 
         self.call_count = 0
 
+        def count(self):
+            if self.call_count % 2 == 0:
+                self.score += 1
+
+            # Check collision with the coin
+            if self.coin_rect.colliderect("image/dino/", "run_", 8, 150, 240):
+                self.score += 50
+                self.coin_rect.topleft = (random.randint(50, SCREEN_WIDTH - 50), random.randint(50, SCREEN_HEIGHT - 50))
+
     def count(self):
         if self.call_count % 2 == 0:
             self.score += 1
@@ -329,9 +342,9 @@ class Score:
 
         self.call_count = self.call_count + 1
 
-        if self.score % 100 >= 0 and self.score % 100 < 10 and self.score > 100:
+        if self.score % 500 >= 0 and self.score % 500 < 15 and self.score > 500:
             draw_text(
-                "congratulation",
+                "congratulation!",
                 "font/northcliff_stencil.otf",
                 70,
                 (255, 0, 0),
