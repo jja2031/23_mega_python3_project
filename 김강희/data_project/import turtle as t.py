@@ -319,7 +319,7 @@ class Score:
 
         self.call_count = 0
 
-        def count(self):
+        def count_coin(self):
             if self.call_count % 2 == 0:
                 self.score += 1
 
