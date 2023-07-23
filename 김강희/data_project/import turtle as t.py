@@ -118,6 +118,74 @@ class AllBackgrounds:
         self.background_1.update()
         self.background_0.update()
 
+class Coin: 
+    def __init__(self, speed=10):
+        self.coin_images = load_sprites("image/score/", "coins_", 5, 160, 160)
+        
+        self.coin_images_0, self.rect_0 = (
+            self.coin_images[0],
+            self.coin_images[0].get_rect(),
+        )
+        self.coin_image_1, self.rect_1 = (
+            self.coin_images[1],
+            self.coin_images[1].get_rect(),
+        )
+
+        self.rect_0.bottom = GROUND_HEIGHT - 20
+        self.rect_0.left = SCREEN_WIDTH
+
+        self.rect_1.bottom = GROUND_HEIGHT - 20
+        self.rect_1.left = self.rect_0.right + int(SCREEN_WIDTH / 2)
+
+        self.speed = speed
+
+        self.range_0 = 240
+        self.range_1 = 720
+
+    def get_coin(self):
+        current_coin = [self.coin_images_0, self.coin_image_1]
+        coin_rect = [self.rect_0, self.rect_1]
+
+        return current_coin, coin_rect
+
+    def update_speed(self, speed):
+        self.speed = speed
+        self.range_0 += 1
+        self.range_1 += 1
+
+    def draw(self):
+        window.blit(self.coin_image_0, self.rect_0)
+        window.blit(self.coin_image_1, self.rect_1)
+
+    def update(self):
+        self.rect_0.left -= int(self.speed)
+        self.rect_1.left -= int(self.speed)
+
+        if self.rect_0.right < 0:
+            temp_position = self.rect_1.right + random.randrange(
+                self.range_0, self.range_1
+            )
+
+            if temp_position > SCREEN_WIDTH:
+                self.rect_0.left = temp_position
+            else:
+                self.rect_0.left = SCREEN_WIDTH
+
+            temp_index = random.randrange(0, 5)
+            self.coin_image_0 = self.coin_images[temp_index]
+
+        if self.rect_1.right < 0:
+            temp_position = self.rect_0.right + random.randrange(
+                self.range_0, self.range_1
+            )
+
+            if temp_position > SCREEN_WIDTH:
+                self.rect_1.left = temp_position
+            else:
+                self.rect_1.left = SCREEN_WIDTH
+
+            temp_index = random.randrange(0, 5)
+            self.coin_image_1 = self.coin_images[temp_index]
 
 class Cactus:
     def __init__(self, speed=10):
@@ -244,6 +312,35 @@ class Dino:
         ) or dino_mask.overlap(pygame.mask.from_surface(current_cactus[1]), offset_1)
 
         return collide
+    
+    def check_coin_collision(self, all_coin):
+        if self.running:
+            dino_mask = pygame.mask.from_surface(
+                self.running_images[self.running_index]
+            )
+        elif self.jumping:
+            dino_mask = pygame.mask.from_surface(
+                self.jumping_images[self.jumping_index]
+            )
+        else:
+            dino_mask = pygame.mask.from_surface(self.idle_images[self.idle_index])
+
+        current_coin, coin_rect = all_coin
+
+        offset_0 = (
+            coin_rect[0].left - self.rect.left,
+            coin_rect[0].top - self.rect.top,
+        )
+        offset_1 = (
+            coin_rect[1].left - self.rect.left,
+            coin_rect[1].top - self.rect.top,
+        )
+
+        collide = dino_mask.overlap(
+            pygame.mask.from_surface(current_coin[0]), offset_0
+        ) or dino_mask.overlap(pygame.mask.from_surface(current_coin[1]), offset_1)
+
+        return collide
 
     def draw(self):
         if self.running:
@@ -296,9 +393,6 @@ class Dino:
 
 class Score:
     def __init__(self):
-        self.coin_image, self.coin_rect = load_image("image/score/coins0.png", 20, 20)
-        self.coin_rect.topleft = (random.randint(50, SCREEN_WIDTH - 50), random.randint(50, SCREEN_HEIGHT - 50))
-
         
         self.high_score_image, self.rect_high = load_image(
             "image/score/high_score.png", 35, 35
@@ -319,14 +413,6 @@ class Score:
 
         self.call_count = 0
 
-        def count_coin(self):
-            if self.call_count % 2 == 0:
-                self.score += 1
-
-            # Check collision with the coin
-            if self.coin_rect.colliderect("image/dino/", "run_", 8, 150, 240):
-                self.score += 50
-                self.coin_rect.topleft = (random.randint(50, SCREEN_WIDTH - 50), random.randint(50, SCREEN_HEIGHT - 50))
 
     def count(self):
         if self.call_count % 2 == 0:
@@ -339,7 +425,7 @@ class Score:
                 self.high_score = self.score
                 self.high_score_achieved = True
                 score_sound.play()
-
+        
         self.call_count = self.call_count + 1
 
         if self.score % 500 >= 0 and self.score % 500 < 15 and self.score > 500:
@@ -352,6 +438,8 @@ class Score:
                 SCREEN_HEIGHT / 5,
                 "midtop",
             )
+        if Dino.check_coin_collision(Coin.get_coin(self)):
+            self.score += 50
 
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
@@ -415,8 +503,8 @@ def start_game():
     play_again = False
     game_over = False
 
-    game_speed = 15
-
+    game_speed = 15 
+    coins = Coin()
     backgrounds = AllBackgrounds(game_speed)
     cactus = Cactus(game_speed)
     dino = Dino()
@@ -486,7 +574,7 @@ def start_game():
                 game_over_screen.draw()
                 game_over_sound.play()
                 score.save()
-
+        
         pygame.display.flip()
 
     return play_again
