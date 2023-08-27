@@ -6,6 +6,8 @@ import random
 
 os.environ["SDL_VIDEO_CENTERED"] = "1"
 
+cur_path = os.getcwd()
+print("CURPATH:", cur_path)
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -24,9 +26,9 @@ pygame.display.set_caption("Run")
 clock = pygame.time.Clock()
 
 
-jump_sound = pygame.mixer.Sound("sound/jump.ogg")
-score_sound = pygame.mixer.Sound("sound/score.ogg")
-game_over_sound = pygame.mixer.Sound("sound/game_over.ogg")
+jump_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\jump.ogg")
+score_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\score.ogg")
+game_over_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\game_over.ogg")
 
 
 def draw_text(text, font_name, size, text_color, position_x, position_y, position):
@@ -95,10 +97,18 @@ class Background:
 
 class AllBackgrounds:
     def __init__(self, game_speed):
-        self.background_0 = Background("image/background/bg_0.png", game_speed)
-        self.background_1 = Background("image/background/bg_1.png", game_speed - 12)
-        self.background_2 = Background("image/background/bg_2.png", game_speed - 13)
-        self.background_3 = Background("image/background/bg_3.png", game_speed - 14)
+        self.background_0 = Background(
+            cur_path + "\\김강희\\image\\background\\bg_0.png", game_speed
+        )
+        self.background_1 = Background(
+            cur_path + "\\김강희\\image\\background\\bg_1.png", game_speed - 12
+        )
+        self.background_2 = Background(
+            cur_path + "\\김강희\\image\\background\\bg_2.png", game_speed - 13
+        )
+        self.background_3 = Background(
+            cur_path + "\\김강희\\image\\background\\bg_3.png", game_speed - 14
+        )
 
     def update_speed(self, speed):
         self.background_0.speed = speed
@@ -118,78 +128,82 @@ class AllBackgrounds:
         self.background_1.update()
         self.background_0.update()
 
-class Coin: 
-    def __init__(self, speed=10):
-        self.coin_images = load_sprites("image/score/", "coins_", 5, 160, 160)
-        
-        self.coin_images_0, self.rect_0 = (
-            self.coin_images[0],
-            self.coin_images[0].get_rect(),
-        )
-        self.coin_image_1, self.rect_1 = (
-            self.coin_images[1],
-            self.coin_images[1].get_rect(),
-        )
 
-        self.rect_0.bottom = GROUND_HEIGHT - 20
-        self.rect_0.left = SCREEN_WIDTH
+# class Coin:
+#     def __init__(self, speed=10):
+#         self.coin_images = load_sprites("image/score/", "coins_", 5, 160, 160)
 
-        self.rect_1.bottom = GROUND_HEIGHT - 20
-        self.rect_1.left = self.rect_0.right + int(SCREEN_WIDTH / 2)
+#         self.coin_images_0, self.rect_0 = (
+#             self.coin_images[0],
+#             self.coin_images[0].get_rect(),
+#         )
+#         self.coin_image_1, self.rect_1 = (
+#             self.coin_images[1],
+#             self.coin_images[1].get_rect(),
+#         )
 
-        self.speed = speed
+#         self.rect_0.bottom = GROUND_HEIGHT - 20
+#         self.rect_0.left = SCREEN_WIDTH
 
-        self.range_0 = 240
-        self.range_1 = 720
+#         self.rect_1.bottom = GROUND_HEIGHT - 20
+#         self.rect_1.left = self.rect_0.right + int(SCREEN_WIDTH / 2)
 
-    def get_coin(self):
-        current_coin = [self.coin_images_0, self.coin_image_1]
-        coin_rect = [self.rect_0, self.rect_1]
+#         self.speed = speed
 
-        return current_coin, coin_rect
+#         self.range_0 = 240
+#         self.range_1 = 720
 
-    def update_speed(self, speed):
-        self.speed = speed
-        self.range_0 += 1
-        self.range_1 += 1
+#     def get_coin(self):
+#         current_coin = [self.coin_images_0, self.coin_image_1]
+#         coin_rect = [self.rect_0, self.rect_1]
 
-    def draw(self):
-        window.blit(self.coin_image_0, self.rect_0)
-        window.blit(self.coin_image_1, self.rect_1)
+#         return current_coin, coin_rect
 
-    def update(self):
-        self.rect_0.left -= int(self.speed)
-        self.rect_1.left -= int(self.speed)
+#     def update_speed(self, speed):
+#         self.speed = speed
+#         self.range_0 += 1
+#         self.range_1 += 1
 
-        if self.rect_0.right < 0:
-            temp_position = self.rect_1.right + random.randrange(
-                self.range_0, self.range_1
-            )
+#     def draw(self):
+#         window.blit(self.coin_image_0, self.rect_0)
+#         window.blit(self.coin_image_1, self.rect_1)
 
-            if temp_position > SCREEN_WIDTH:
-                self.rect_0.left = temp_position
-            else:
-                self.rect_0.left = SCREEN_WIDTH
+#     def update(self):
+#         self.rect_0.left -= int(self.speed)
+#         self.rect_1.left -= int(self.speed)
 
-            temp_index = random.randrange(0, 5)
-            self.coin_image_0 = self.coin_images[temp_index]
+#         if self.rect_0.right < 0:
+#             temp_position = self.rect_1.right + random.randrange(
+#                 self.range_0, self.range_1
+#             )
 
-        if self.rect_1.right < 0:
-            temp_position = self.rect_0.right + random.randrange(
-                self.range_0, self.range_1
-            )
+#             if temp_position > SCREEN_WIDTH:
+#                 self.rect_0.left = temp_position
+#             else:
+#                 self.rect_0.left = SCREEN_WIDTH
 
-            if temp_position > SCREEN_WIDTH:
-                self.rect_1.left = temp_position
-            else:
-                self.rect_1.left = SCREEN_WIDTH
+#             temp_index = random.randrange(0, 5)
+#             self.coin_image_0 = self.coin_images[temp_index]
 
-            temp_index = random.randrange(0, 5)
-            self.coin_image_1 = self.coin_images[temp_index]
+#         if self.rect_1.right < 0:
+#             temp_position = self.rect_0.right + random.randrange(
+#                 self.range_0, self.range_1
+#             )
+
+#             if temp_position > SCREEN_WIDTH:
+#                 self.rect_1.left = temp_position
+#             else:
+#                 self.rect_1.left = SCREEN_WIDTH
+
+#             temp_index = random.randrange(0, 5)
+#             self.coin_image_1 = self.coin_images[temp_index]
+
 
 class Cactus:
     def __init__(self, speed=10):
-        self.cactus_images = load_sprites("image/cactus/", "cactus_", 5, 160, 160)
+        self.cactus_images = load_sprites(
+            cur_path + "\image\cactus\cactus_", 5, 160, 160
+        )
 
         self.cactus_image_0, self.rect_0 = (
             self.cactus_images[0],
@@ -312,7 +326,7 @@ class Dino:
         ) or dino_mask.overlap(pygame.mask.from_surface(current_cactus[1]), offset_1)
 
         return collide
-    
+
     def check_coin_collision(self, all_coin):
         if self.running:
             dino_mask = pygame.mask.from_surface(
@@ -393,7 +407,6 @@ class Dino:
 
 class Score:
     def __init__(self):
-        
         self.high_score_image, self.rect_high = load_image(
             "image/score/high_score.png", 35, 35
         )
@@ -413,7 +426,6 @@ class Score:
 
         self.call_count = 0
 
-
     def count(self):
         if self.call_count % 2 == 0:
             self.score += 1
@@ -425,7 +437,7 @@ class Score:
                 self.high_score = self.score
                 self.high_score_achieved = True
                 score_sound.play()
-        
+
         self.call_count = self.call_count + 1
 
         if self.score % 500 >= 0 and self.score % 500 < 15 and self.score > 500:
@@ -438,8 +450,8 @@ class Score:
                 SCREEN_HEIGHT / 5,
                 "midtop",
             )
-        if Dino.check_coin_collision(Coin.get_coin(self)):
-            self.score += 50
+        # if Dino.check_coin_collision(Coin.get_coin(self)):
+        # self.score += 50
 
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
@@ -503,8 +515,7 @@ def start_game():
     play_again = False
     game_over = False
 
-    game_speed = 15 
-    coins = Coin()
+    game_speed = 15
     backgrounds = AllBackgrounds(game_speed)
     cactus = Cactus(game_speed)
     dino = Dino()
@@ -574,7 +585,7 @@ def start_game():
                 game_over_screen.draw()
                 game_over_sound.play()
                 score.save()
-        
+
         pygame.display.flip()
 
     return play_again
