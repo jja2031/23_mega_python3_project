@@ -5,7 +5,9 @@ import sys
 import random
 
 os.environ["SDL_VIDEO_CENTERED"] = "1"
-
+cur_path = os.getcwd()
+cur_path += "\김강희"
+print("CUR PATH:", cur_path)
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -19,14 +21,14 @@ PLAY_GAME = True
 
 pygame.init()
 window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Run")
+pygame.display.set_caption("Knight Run")
 
 clock = pygame.time.Clock()
 
 
-jump_sound = pygame.mixer.Sound("sound/jump.ogg")
-score_sound = pygame.mixer.Sound("sound/score.ogg")
-game_over_sound = pygame.mixer.Sound("sound/game_over.ogg")
+jump_sound = pygame.mixer.Sound(cur_path + "\\sound\\jump.ogg")
+score_sound = pygame.mixer.Sound(cur_path + "\\sound\\score.ogg")
+game_over_sound = pygame.mixer.Sound(cur_path + "\\sound\\game_over.ogg")
 
 
 def draw_text(text, font_name, size, text_color, position_x, position_y, position):
@@ -95,10 +97,10 @@ class Background:
 
 class AllBackgrounds:
     def __init__(self, game_speed):
-        self.background_0 = Background("image/background/bg_0.png", game_speed)
-        self.background_1 = Background("image/background/bg_1.png", game_speed - 12)
-        self.background_2 = Background("image/background/bg_2.png", game_speed - 13)
-        self.background_3 = Background("image/background/bg_3.png", game_speed - 14)
+        self.background_0 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_0.png", game_speed)
+        self.background_1 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_1.png", game_speed - 12)
+        self.background_2 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_2.png", game_speed - 13)
+        self.background_3 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_3.png", game_speed - 14)
 
     def update_speed(self, speed):
         self.background_0.speed = speed
@@ -118,78 +120,11 @@ class AllBackgrounds:
         self.background_1.update()
         self.background_0.update()
 
-class Coin: 
-    def __init__(self, speed=10):
-        self.coin_images = load_sprites("image/score/", "coins_", 5, 160, 160)
-        
-        self.coin_images_0, self.rect_0 = (
-            self.coin_images[0],
-            self.coin_images[0].get_rect(),
-        )
-        self.coin_image_1, self.rect_1 = (
-            self.coin_images[1],
-            self.coin_images[1].get_rect(),
-        )
 
-        self.rect_0.bottom = GROUND_HEIGHT - 20
-        self.rect_0.left = SCREEN_WIDTH
-
-        self.rect_1.bottom = GROUND_HEIGHT - 20
-        self.rect_1.left = self.rect_0.right + int(SCREEN_WIDTH / 2)
-
-        self.speed = speed
-
-        self.range_0 = 240
-        self.range_1 = 720
-
-    def get_coin(self):
-        current_coin = [self.coin_images_0, self.coin_image_1]
-        coin_rect = [self.rect_0, self.rect_1]
-
-        return current_coin, coin_rect
-
-    def update_speed(self, speed):
-        self.speed = speed
-        self.range_0 += 1
-        self.range_1 += 1
-
-    def draw(self):
-        window.blit(self.coin_image_0, self.rect_0)
-        window.blit(self.coin_image_1, self.rect_1)
-
-    def update(self):
-        self.rect_0.left -= int(self.speed)
-        self.rect_1.left -= int(self.speed)
-
-        if self.rect_0.right < 0:
-            temp_position = self.rect_1.right + random.randrange(
-                self.range_0, self.range_1
-            )
-
-            if temp_position > SCREEN_WIDTH:
-                self.rect_0.left = temp_position
-            else:
-                self.rect_0.left = SCREEN_WIDTH
-
-            temp_index = random.randrange(0, 5)
-            self.coin_image_0 = self.coin_images[temp_index]
-
-        if self.rect_1.right < 0:
-            temp_position = self.rect_0.right + random.randrange(
-                self.range_0, self.range_1
-            )
-
-            if temp_position > SCREEN_WIDTH:
-                self.rect_1.left = temp_position
-            else:
-                self.rect_1.left = SCREEN_WIDTH
-
-            temp_index = random.randrange(0, 5)
-            self.coin_image_1 = self.coin_images[temp_index]
 
 class Cactus:
     def __init__(self, speed=10):
-        self.cactus_images = load_sprites("image/cactus/", "cactus_", 5, 160, 160)
+        self.cactus_images = load_sprites("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/cactus/", "cactus_", 5, 160, 160)
 
         self.cactus_image_0, self.rect_0 = (
             self.cactus_images[0],
@@ -259,9 +194,9 @@ class Cactus:
 
 class Dino:
     def __init__(self):
-        self.idle_images = load_sprites("image/dino/", "idle_", 10, 130, 260)
-        self.running_images = load_sprites("image/dino/", "run_", 8, 150, 240)
-        self.jumping_images = load_sprites("image/dino/", "jump_", 16, 150, 240)
+        self.idle_images = load_sprites("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/dino/", "idle_", 10, 130, 260)
+        self.running_images = load_sprites("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/dino/", "run_", 8, 150, 240)
+        self.jumping_images = load_sprites("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/dino/", "jump_", 16, 150, 240)
 
         self.rect = self.idle_images[0].get_rect()
 
@@ -313,35 +248,7 @@ class Dino:
 
         return collide
     
-    def check_coin_collision(self, all_coin):
-        if self.running:
-            dino_mask = pygame.mask.from_surface(
-                self.running_images[self.running_index]
-            )
-        elif self.jumping:
-            dino_mask = pygame.mask.from_surface(
-                self.jumping_images[self.jumping_index]
-            )
-        else:
-            dino_mask = pygame.mask.from_surface(self.idle_images[self.idle_index])
-
-        current_coin, coin_rect = all_coin
-
-        offset_0 = (
-            coin_rect[0].left - self.rect.left,
-            coin_rect[0].top - self.rect.top,
-        )
-        offset_1 = (
-            coin_rect[1].left - self.rect.left,
-            coin_rect[1].top - self.rect.top,
-        )
-
-        collide = dino_mask.overlap(
-            pygame.mask.from_surface(current_coin[0]), offset_0
-        ) or dino_mask.overlap(pygame.mask.from_surface(current_coin[1]), offset_1)
-
-        return collide
-
+    
     def draw(self):
         if self.running:
             window.blit(self.running_images[self.running_index], self.rect)
@@ -395,10 +302,10 @@ class Score:
     def __init__(self):
         
         self.high_score_image, self.rect_high = load_image(
-            "image/score/high_score.png", 35, 35
+            "C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/score/high_score.png", 35, 35
         )
         self.current_score_image, self.rect_current = load_image(
-            "image/score/current_score.png", 35, 35
+            "C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/score/current_score.png", 35, 35
         )
 
         self.rect_high.topright = (SCREEN_WIDTH - 15, 20)
@@ -431,23 +338,21 @@ class Score:
         if self.score % 500 >= 0 and self.score % 500 < 15 and self.score > 500:
             draw_text(
                 "congratulation!",
-                "font/northcliff_stencil.otf",
+                cur_path + "\\font\\monofonto.ttf",
                 70,
                 (255, 0, 0),
                 SCREEN_WIDTH / 2,
                 SCREEN_HEIGHT / 5,
                 "midtop",
             )
-        if Dino.check_coin_collision(Coin.get_coin(self)):
-            self.score += 50
-
+    
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
         window.blit(self.current_score_image, self.rect_current)
 
         draw_text(
             str(self.high_score),
-            "font/monofonto.ttf",
+            "C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/font/monofonto.ttf",
             28,
             (19, 130, 98),
             SCREEN_WIDTH - 60,
@@ -456,7 +361,7 @@ class Score:
         )
         draw_text(
             str(self.score),
-            "font/monofonto.ttf",
+            "C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/font/monofonto.ttf",
             28,
             (50, 130, 98),
             SCREEN_WIDTH - 60,
@@ -480,7 +385,7 @@ class Score:
 class GameOver:
     def __init__(self):
         self.replay_image, self.rect = load_image(
-            "image/game_over/replay_0.png", 200, 60
+            "C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/game_over/replay_0.png", 200, 60
         )
 
         self.rect.center = (int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
@@ -488,7 +393,7 @@ class GameOver:
     def draw(self):
         draw_text(
             "GAME OVER",
-            "font/northcliff_stencil.otf",
+            "김강희/font/monofonto.ttf",
             80,
             (255, 0, 0),
             SCREEN_WIDTH / 2,
@@ -504,7 +409,7 @@ def start_game():
     game_over = False
 
     game_speed = 15 
-    coins = Coin()
+    #coins = Coin()
     backgrounds = AllBackgrounds(game_speed)
     cactus = Cactus(game_speed)
     dino = Dino()
