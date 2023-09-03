@@ -5,15 +5,9 @@ import sys
 import random
 
 os.environ["SDL_VIDEO_CENTERED"] = "1"
-<<<<<<< HEAD:김강희/data_project/main.py
 cur_path = os.getcwd()
 cur_path += "\김강희"
 print("CUR PATH:", cur_path)
-=======
-
-cur_path = os.getcwd()
-print("CURPATH:", cur_path)
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -32,15 +26,9 @@ pygame.display.set_caption("Knight Run")
 clock = pygame.time.Clock()
 
 
-<<<<<<< HEAD:김강희/data_project/main.py
 jump_sound = pygame.mixer.Sound(cur_path + "\\sound\\jump.ogg")
 score_sound = pygame.mixer.Sound(cur_path + "\\sound\\score.ogg")
 game_over_sound = pygame.mixer.Sound(cur_path + "\\sound\\game_over.ogg")
-=======
-jump_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\jump.ogg")
-score_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\score.ogg")
-game_over_sound = pygame.mixer.Sound(cur_path + "\김강희\sound\game_over.ogg")
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
 
 
 def draw_text(text, font_name, size, text_color, position_x, position_y, position):
@@ -109,25 +97,10 @@ class Background:
 
 class AllBackgrounds:
     def __init__(self, game_speed):
-<<<<<<< HEAD:김강희/data_project/main.py
         self.background_0 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_0.png", game_speed)
         self.background_1 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_1.png", game_speed - 12)
         self.background_2 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_2.png", game_speed - 13)
         self.background_3 = Background("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/background/bg_3.png", game_speed - 14)
-=======
-        self.background_0 = Background(
-            cur_path + "\\김강희\\image\\background\\bg_0.png", game_speed
-        )
-        self.background_1 = Background(
-            cur_path + "\\김강희\\image\\background\\bg_1.png", game_speed - 12
-        )
-        self.background_2 = Background(
-            cur_path + "\\김강희\\image\\background\\bg_2.png", game_speed - 13
-        )
-        self.background_3 = Background(
-            cur_path + "\\김강희\\image\\background\\bg_3.png", game_speed - 14
-        )
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
 
     def update_speed(self, speed):
         self.background_0.speed = speed
@@ -148,88 +121,10 @@ class AllBackgrounds:
         self.background_0.update()
 
 
-<<<<<<< HEAD:김강희/data_project/main.py
 
 class Cactus:
     def __init__(self, speed=10):
         self.cactus_images = load_sprites("C:/Users/MegaIT/Documents/23_mega_python3_project/김강희/image/cactus/", "cactus_", 5, 160, 160)
-=======
-# class Coin:
-#     def __init__(self, speed=10):
-#         self.coin_images = load_sprites("image/score/", "coins_", 5, 160, 160)
-
-#         self.coin_images_0, self.rect_0 = (
-#             self.coin_images[0],
-#             self.coin_images[0].get_rect(),
-#         )
-#         self.coin_image_1, self.rect_1 = (
-#             self.coin_images[1],
-#             self.coin_images[1].get_rect(),
-#         )
-
-#         self.rect_0.bottom = GROUND_HEIGHT - 20
-#         self.rect_0.left = SCREEN_WIDTH
-
-#         self.rect_1.bottom = GROUND_HEIGHT - 20
-#         self.rect_1.left = self.rect_0.right + int(SCREEN_WIDTH / 2)
-
-#         self.speed = speed
-
-#         self.range_0 = 240
-#         self.range_1 = 720
-
-#     def get_coin(self):
-#         current_coin = [self.coin_images_0, self.coin_image_1]
-#         coin_rect = [self.rect_0, self.rect_1]
-
-#         return current_coin, coin_rect
-
-#     def update_speed(self, speed):
-#         self.speed = speed
-#         self.range_0 += 1
-#         self.range_1 += 1
-
-#     def draw(self):
-#         window.blit(self.coin_image_0, self.rect_0)
-#         window.blit(self.coin_image_1, self.rect_1)
-
-#     def update(self):
-#         self.rect_0.left -= int(self.speed)
-#         self.rect_1.left -= int(self.speed)
-
-#         if self.rect_0.right < 0:
-#             temp_position = self.rect_1.right + random.randrange(
-#                 self.range_0, self.range_1
-#             )
-
-#             if temp_position > SCREEN_WIDTH:
-#                 self.rect_0.left = temp_position
-#             else:
-#                 self.rect_0.left = SCREEN_WIDTH
-
-#             temp_index = random.randrange(0, 5)
-#             self.coin_image_0 = self.coin_images[temp_index]
-
-#         if self.rect_1.right < 0:
-#             temp_position = self.rect_0.right + random.randrange(
-#                 self.range_0, self.range_1
-#             )
-
-#             if temp_position > SCREEN_WIDTH:
-#                 self.rect_1.left = temp_position
-#             else:
-#                 self.rect_1.left = SCREEN_WIDTH
-
-#             temp_index = random.randrange(0, 5)
-#             self.coin_image_1 = self.coin_images[temp_index]
-
-
-class Cactus:
-    def __init__(self, speed=10):
-        self.cactus_images = load_sprites(
-            cur_path + "\image\cactus\cactus_", 5, 160, 160
-        )
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
 
         self.cactus_image_0, self.rect_0 = (
             self.cactus_images[0],
@@ -352,10 +247,8 @@ class Dino:
         ) or dino_mask.overlap(pygame.mask.from_surface(current_cactus[1]), offset_1)
 
         return collide
-<<<<<<< HEAD:김강희/data_project/main.py
     
     
-=======
 
     def check_coin_collision(self, all_coin):
         if self.running:
@@ -386,7 +279,6 @@ class Dino:
 
         return collide
 
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
     def draw(self):
         if self.running:
             window.blit(self.running_images[self.running_index], self.rect)
@@ -481,13 +373,9 @@ class Score:
                 SCREEN_HEIGHT / 5,
                 "midtop",
             )
-<<<<<<< HEAD:김강희/data_project/main.py
-    
-=======
         # if Dino.check_coin_collision(Coin.get_coin(self)):
         # self.score += 50
 
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
         window.blit(self.current_score_image, self.rect_current)
@@ -550,12 +438,7 @@ def start_game():
     play_again = False
     game_over = False
 
-<<<<<<< HEAD:김강희/data_project/main.py
-    game_speed = 15 
-    #coins = Coin()
-=======
     game_speed = 15
->>>>>>> 53f384d0728eeea0f20f27e6c049980e3f28554f:김강희/data_project/import turtle as t.py
     backgrounds = AllBackgrounds(game_speed)
     cactus = Cactus(game_speed)
     dino = Dino()
