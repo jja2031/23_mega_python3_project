@@ -17,6 +17,8 @@ pygame.display.set_caption("Bounce")
 
 # Ball
 balls = []
+rad = 20
+
 
 running = True
 while running:
@@ -26,11 +28,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            balls.append(ball)
+            x_pos = (pygame.mouse.get_pos()[0])
+            y_pos = (pygame.mouse.get_pos()[1])
+            x = x_pos
+            y = y_pos
+            newBall = Ball(x,y,0,0,rad,'#fff')
+            balls.append(newBall)
 
     for ball in balls:
-        pygame.draw.circle(screen, colorsys.hls_to_rgb(
-            ball.color[0], ball.color[1], ball.color[2]), (ball.x, ball.y), ball.rad)
+        pygame.draw.circle(screen, (255,0,0), (x,y), rad)
 
     pygame.display.flip()
 
