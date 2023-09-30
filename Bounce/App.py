@@ -1,42 +1,44 @@
-import random
 import pygame
+import random
 import colorsys
 from modules.Ball import Ball
 
 pygame.init()
 
-# screen setting
 screen_width = 320
 screen_height = 480
 screen = pygame.display.set_mode((screen_width, screen_height))
+color = (0, 0, 0)
+img = pygame.image.load('Bounce\pngwingcom.png')
+pygame.display.set_icon(img)
 
-# logo setting
-icon_img = pygame.image.load('Bounce\pngwingcom.png')
-pygame.display.set_icon(icon_img)
 pygame.display.set_caption("Bounce")
 
-# Ball
-balls = []
-rad = 20
 
+balls = []
 
 running = True
 while running:
-    screen.fill((0, 0, 0))
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT: 
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            x_pos = (pygame.mouse.get_pos()[0])
-            y_pos = (pygame.mouse.get_pos()[1])
-            x = x_pos
-            y = y_pos
-            newBall = Ball(x,y,0,0,rad,'#fff')
-            balls.append(newBall)
+            x_pos = int(pygame.mouse.get_pos()[0])
+            y_pos = int(pygame.mouse.get_pos()[1])
+            balls.append(Ball(x_pos, y_pos, random.uniform(0.0, 0.1), random.uniform(0.05, 0.1), random.randint(15,25), [0.0, 127.5, -1.007905138339921]))
+
+    
+    screen.fill(color)
 
     for ball in balls:
-        pygame.draw.circle(screen, (255,0,0), (x,y), rad)
+        ball.update()
+        ball.checkCollision(screen_width, screen_height)
+        (h, l, s) = ball.getColor()
+        pygame.draw.circle(screen, colorsys.hls_to_rgb(h, l, s), (ball.x, ball.y), ball.rad)
+
+    for ball in balls:
+        if ball.isDead() == True:
+            balls.remove(ball)
 
     pygame.display.flip()
 
