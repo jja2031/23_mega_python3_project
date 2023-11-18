@@ -7,7 +7,7 @@ import random
 os.environ["SDL_VIDEO_CENTERED"] = "1"
 cur_path = os.getcwd()
 cur_path += "\\"
-#print("CUR PATH:", cur_path)
+# print("CUR PATH:", cur_path)
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -26,9 +26,9 @@ pygame.display.set_caption("Knight Run")
 clock = pygame.time.Clock()
 
 
-jump_sound = pygame.mixer.Sound(cur_path + "sound\\jump.ogg")
-score_sound = pygame.mixer.Sound(cur_path + "sound\\score.ogg")
-game_over_sound = pygame.mixer.Sound(cur_path + "sound\\game_over.ogg")
+jump_sound = pygame.mixer.Sound(cur_path + "김강희\sound\\jump.ogg")
+score_sound = pygame.mixer.Sound(cur_path + "김강희\sound\\score.ogg")
+game_over_sound = pygame.mixer.Sound(cur_path + "김강희\sound\\game_over.ogg")
 
 
 def draw_text(text, font_name, size, text_color, position_x, position_y, position):
@@ -97,10 +97,18 @@ class Background:
 
 class AllBackgrounds:
     def __init__(self, game_speed):
-        self.background_0 = Background(cur_path+"/image/background/bg_0.png", game_speed)
-        self.background_1 = Background(cur_path+"/image/background/bg_1.png", game_speed - 12)
-        self.background_2 = Background(cur_path+"/image/background/bg_2.png", game_speed - 13)
-        self.background_3 = Background(cur_path+"/image/background/bg_3.png", game_speed - 14)
+        self.background_0 = Background(
+            cur_path + "김강희/image/background/bg_0.png", game_speed
+        )
+        self.background_1 = Background(
+            cur_path + "김강희/image/background/bg_1.png", game_speed - 12
+        )
+        self.background_2 = Background(
+            cur_path + "김강희/image/background/bg_2.png", game_speed - 13
+        )
+        self.background_3 = Background(
+            cur_path + "김강희/image/background/bg_3.png", game_speed - 14
+        )
 
     def update_speed(self, speed):
         self.background_0.speed = speed
@@ -121,10 +129,11 @@ class AllBackgrounds:
         self.background_0.update()
 
 
-
 class Cactus:
     def __init__(self, speed=10):
-        self.cactus_images = load_sprites(cur_path+"/image/cactus/", "cactus_", 5, 160, 160)
+        self.cactus_images = load_sprites(
+            cur_path + "김강희/image/cactus/", "cactus_", 5, 160, 160
+        )
 
         self.cactus_image_0, self.rect_0 = (
             self.cactus_images[0],
@@ -190,10 +199,13 @@ class Cactus:
 
             temp_index = random.randrange(0, 5)
             self.cactus_image_1 = self.cactus_images[temp_index]
-            
+
+
 class Coin:
     def __init__(self, speed=10):
-        self.coin_images = load_sprites(cur_path+"image\score\\", "coin_", 5, 50, 50)
+        self.coin_images = load_sprites(
+            cur_path + "김강희\image\score\\", "coin_", 5, 50, 50
+        )
 
         self.coin_image_0, self.rect_0 = (
             self.coin_images[0],
@@ -225,7 +237,7 @@ class Coin:
         self.speed = speed
         self.range_0 += 1
         self.range_1 += 1
-        
+
     def check_collision(self, all_coin):
         if self.running:
             dino_mask = pygame.mask.from_surface(
@@ -254,7 +266,7 @@ class Coin:
         ) or dino_mask.overlap(pygame.mask.from_surface(current_coin[1]), offset_1)
 
         return collide
-    
+
     def draw(self):
         window.blit(self.coin_image_0, self.rect_0)
         window.blit(self.coin_image_1, self.rect_1)
@@ -292,9 +304,15 @@ class Coin:
 
 class Dino:
     def __init__(self):
-        self.idle_images = load_sprites(cur_path+"\image\dino\\", "idle_", 10, 130, 260)
-        self.running_images = load_sprites(cur_path+"\image\dino\\", "run_", 8, 150, 240)
-        self.jumping_images = load_sprites(cur_path+"\image\dino\\", "jump_", 16, 150, 240)
+        self.idle_images = load_sprites(
+            cur_path + "김강희\image\dino\\", "idle_", 10, 130, 260
+        )
+        self.running_images = load_sprites(
+            cur_path + "김강희\image\dino\\", "run_", 8, 150, 240
+        )
+        self.jumping_images = load_sprites(
+            cur_path + "김강희\image\dino\\", "jump_", 16, 150, 240
+        )
 
         self.rect = self.idle_images[0].get_rect()
 
@@ -345,8 +363,6 @@ class Dino:
         ) or dino_mask.overlap(pygame.mask.from_surface(current_cactus[1]), offset_1)
 
         return collide
-    
-    
 
     def check_coin_collision(self, all_coin):
         if self.running:
@@ -429,10 +445,10 @@ class Dino:
 class Score:
     def __init__(self):
         self.high_score_image, self.rect_high = load_image(
-            cur_path+"/image/score/high_score.png", 35, 35
+            cur_path + "김강희/image/score/high_score.png", 35, 35
         )
         self.current_score_image, self.rect_current = load_image(
-            cur_path+"/image/score/current_score.png", 35, 35
+            cur_path + "김강희/image/score/current_score.png", 35, 35
         )
 
         self.rect_high.topright = (SCREEN_WIDTH - 15, 20)
@@ -464,15 +480,13 @@ class Score:
         if self.score % 500 >= 0 and self.score % 500 < 15 and self.score > 500:
             draw_text(
                 "congratulation!",
-                cur_path + "\\font\\monofonto.ttf",
+                cur_path + "김강희\\font\\monofonto.ttf",
                 70,
                 (255, 0, 0),
                 SCREEN_WIDTH / 2,
                 SCREEN_HEIGHT / 5,
                 "midtop",
             )
-        # if Dino.check_coin_collision(Coin.get_coin(self)):
-        # self.score += 50
 
     def draw(self):
         window.blit(self.high_score_image, self.rect_high)
@@ -480,7 +494,7 @@ class Score:
 
         draw_text(
             str(self.high_score),
-            cur_path+"\\font\\monofonto.ttf",
+            cur_path + "김강희\\font\\monofonto.ttf",
             28,
             (19, 130, 98),
             SCREEN_WIDTH - 60,
@@ -489,7 +503,7 @@ class Score:
         )
         draw_text(
             str(self.score),
-            cur_path+"\\font\\monofonto.ttf",
+            cur_path + "김강희\\font\\monofonto.ttf",
             28,
             (50, 130, 98),
             SCREEN_WIDTH - 60,
@@ -508,6 +522,7 @@ class Score:
         if self.high_score_achieved:
             with open("high_score.txt", "w") as file:
                 file.write(str(self.high_score))
+
     def plus(self):
         self.score += 5
 
@@ -515,7 +530,7 @@ class Score:
 class GameOver:
     def __init__(self):
         self.replay_image, self.rect = load_image(
-            cur_path+"/image/game_over/replay_0.png", 200, 60
+            cur_path + "김강희/image/game_over/replay_0.png", 200, 60
         )
 
         self.rect.center = (int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
@@ -523,7 +538,7 @@ class GameOver:
     def draw(self):
         draw_text(
             "GAME OVER",
-            cur_path+"\\font\\monofonto.ttf",
+            cur_path + "김강희\\font\\monofonto.ttf",
             80,
             (255, 0, 0),
             SCREEN_WIDTH / 2,
@@ -612,7 +627,7 @@ def start_game():
                 game_over_screen.draw()
                 game_over_sound.play()
                 score.save()
-            
+
             if dino.check_collision(coin.get_coin()):
                 score.plus()
 
